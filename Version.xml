@@ -4,6 +4,6 @@
 		<VersionEFCore5>5.9.3</VersionEFCore5>
 		<VersionEFCore6>6.9.3</VersionEFCore6>
 		<VersionEFCore7>7.4.3</VersionEFCore7>
-		<VersionEFCore8>8.1.1</VersionEFCore8>
+		<VersionEFCore8>8.1.2</VersionEFCore8>
 	</PropertyGroup>
 </Project>
