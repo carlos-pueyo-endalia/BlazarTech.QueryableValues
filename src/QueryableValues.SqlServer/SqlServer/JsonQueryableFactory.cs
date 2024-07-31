@@ -38,9 +38,23 @@ namespace BlazarTech.QueryableValues.SqlServer
 
                 sb.Append(" [").Append(QueryableValuesEntity.IndexPropertyName).Append(']');
 
+                var collation = entityOptions.DefaultForCollation;
+                if (!string.IsNullOrEmpty(collation))
+                {
+                    sb.Append(" COLLATE ").Append(collation);
+                }
+
                 foreach (var mapping in mappings)
                 {
+                    var propertyOptions = entityOptions.GetPropertyOptions(mapping.Source);
+                    var propertyCollation = (propertyOptions?.Collation ?? entityOptions.DefaultForCollation);
+
                     sb.Append(", [").Append(mapping.Target.Name).Append(']');
+
+                    if (!string.IsNullOrEmpty(propertyCollation))
+                    {
+                        sb.Append(" COLLATE ").Append(propertyCollation);
+                    }
                 }
 
                 if (typeof(TEntity) == typeof(ComplexQueryableValuesEntity))

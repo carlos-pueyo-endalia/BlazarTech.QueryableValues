@@ -4,7 +4,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net8.0</TargetFrameworks>
 		<AssemblyName>BlazarTech.QueryableValues.SqlServer.Tests.EFCore8</AssemblyName>
-		<DefineConstants>$(DefineConstants);TESTS;EFCORE8</DefineConstants>
+		<DefineConstants>$(DefineConstants);TESTS;EFCORE8;TEST_ALL</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -17,9 +17,12 @@ namespace BlazarTech.QueryableValues.Builders
 
         private bool _defaultForIsUnicode = false;
         private int _defaultForNumberOfDecimals = 4;
+        private string? _defaultForCollation;
 
         bool IEntityOptionsBuilder.DefaultForIsUnicode => _defaultForIsUnicode;
         int IEntityOptionsBuilder.DefaultForNumberOfDecimals => _defaultForNumberOfDecimals;
+        string? IEntityOptionsBuilder.DefaultForCollation => _defaultForCollation;
+
         IPropertyOptionsBuilder? IEntityOptionsBuilder.GetPropertyOptions(MemberInfo memberInfo) => GetPropertyOptions(memberInfo);
 
         internal EntityOptionsBuilder()
@@ -75,6 +78,15 @@ namespace BlazarTech.QueryableValues.Builders
             return this;
         }
 
+        /// <summary>Sets the default collation for properties.</summary>
+        /// <param name="collation">The default collation for properties.</param>
+        /// <returns>The same builder instance so that multiple configuration calls can be chained.</returns>
+        public EntityOptionsBuilder<T> DefaultForCollation(string? collation)
+        {
+            _defaultForCollation = collation;
+            return this;
+        }
+
 #pragma warning disable CS1591
         public override int GetHashCode()
         {
@@ -82,6 +94,7 @@ namespace BlazarTech.QueryableValues.Builders
             hash.Add(_type);
             hash.Add(_defaultForIsUnicode);
             hash.Add(_defaultForNumberOfDecimals);
+            hash.Add(_defaultForCollation);
 
             foreach (var value in _properties.Values)
             {
@@ -102,6 +115,7 @@ namespace BlazarTech.QueryableValues.Builders
                 _type == other._type &&
                 _defaultForIsUnicode == other._defaultForIsUnicode &&
                 _defaultForNumberOfDecimals == other._defaultForNumberOfDecimals &&
+                _defaultForCollation == other._defaultForCollation &&
                 _properties.Values.SequenceEqual(other._properties.Values);
         }
 
@@ -113,6 +127,8 @@ namespace BlazarTech.QueryableValues.Builders
     {
         bool DefaultForIsUnicode { get; }
         int DefaultForNumberOfDecimals { get; }
+        /// <summary>Default collation for properties.</summary>
+        string? DefaultForCollation { get; }
         IPropertyOptionsBuilder? GetPropertyOptions(MemberInfo memberInfo);
     }
 }

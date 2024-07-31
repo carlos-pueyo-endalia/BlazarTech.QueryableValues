@@ -13,9 +13,11 @@ namespace BlazarTech.QueryableValues.Builders
 
         private bool _isUnicode;
         private int _numberOfDecimals;
+        private string? _collation;
 
         bool IPropertyOptionsBuilder.IsUnicode => _isUnicode;
         int IPropertyOptionsBuilder.NumberOfDecimals => _numberOfDecimals;
+        string? IPropertyOptionsBuilder.Collation => _collation;
 
         internal PropertyOptionsBuilder(MemberInfo memberInfo)
         {
@@ -68,10 +70,19 @@ namespace BlazarTech.QueryableValues.Builders
             return this;
         }
 
+        /// <summary>Configures the collation for the property.</summary>
+        /// <param name="collation">The collation to use for the property.</param>
+        /// <returns>The same builder instance so that multiple configuration calls can be chained.</returns>
+        public PropertyOptionsBuilder<TProperty> Collation(string collation)
+        {
+            _collation = collation;
+            return this;
+        }
+
 #pragma warning disable CS1591
         public override int GetHashCode()
         {
-            return HashCode.Combine(_memberInfo, _numberOfDecimals, _numberOfDecimals);
+            return HashCode.Combine(_memberInfo, _numberOfDecimals, _numberOfDecimals, _collation);
         }
 
         public bool Equals(PropertyOptionsBuilder<TProperty>? other)
@@ -84,7 +95,8 @@ namespace BlazarTech.QueryableValues.Builders
             return
                 _memberInfo == other._memberInfo &&
                 _isUnicode == other._isUnicode &&
-                _numberOfDecimals == other._numberOfDecimals;
+                _numberOfDecimals == other._numberOfDecimals &&
+                _collation == other._collation;
         }
 
         public override bool Equals(object? obj) => Equals(obj as PropertyOptionsBuilder<TProperty>);
@@ -95,5 +107,7 @@ namespace BlazarTech.QueryableValues.Builders
     {
         bool IsUnicode { get; }
         int NumberOfDecimals { get; }
+        /// <summary>Collation for the property.</summary>
+        string? Collation { get; }
     }
 }
